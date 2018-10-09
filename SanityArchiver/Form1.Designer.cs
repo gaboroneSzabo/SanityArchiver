@@ -31,9 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.pathLabel = new System.Windows.Forms.Label();
             this.pathTextBox = new System.Windows.Forms.TextBox();
-            this.leftPanel = new System.Windows.Forms.Panel();
-            this.rightPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.sortButton = new System.Windows.Forms.Button();
+            this.leftPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // button1
@@ -66,38 +64,19 @@
             // leftPanel
             // 
             this.leftPanel.AutoScroll = true;
-            this.leftPanel.Location = new System.Drawing.Point(12, 12);
+            this.leftPanel.AutoSize = true;
+            this.leftPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.leftPanel.Location = new System.Drawing.Point(0, 0);
             this.leftPanel.Name = "leftPanel";
-            this.leftPanel.Size = new System.Drawing.Size(307, 383);
-            this.leftPanel.TabIndex = 6;
-            // 
-            // rightPanel
-            // 
-            this.rightPanel.AutoScroll = true;
-            this.rightPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.rightPanel.Location = new System.Drawing.Point(371, 12);
-            this.rightPanel.Name = "rightPanel";
-            this.rightPanel.Size = new System.Drawing.Size(400, 172);
-            this.rightPanel.TabIndex = 7;
-            this.rightPanel.WrapContents = false;
-            // 
-            // sortButton
-            // 
-            this.sortButton.Location = new System.Drawing.Point(703, 308);
-            this.sortButton.Name = "sortButton";
-            this.sortButton.Size = new System.Drawing.Size(75, 23);
-            this.sortButton.TabIndex = 8;
-            this.sortButton.Text = "sort";
-            this.sortButton.UseVisualStyleBackColor = true;
-            this.sortButton.Click += new System.EventHandler(this.sortButton_Click);
+            this.leftPanel.Size = new System.Drawing.Size(250, 416);
+            this.leftPanel.TabIndex = 4;
+            this.leftPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 450);
-            this.Controls.Add(this.sortButton);
-            this.Controls.Add(this.rightPanel);
             this.Controls.Add(this.leftPanel);
             this.Controls.Add(this.pathTextBox);
             this.Controls.Add(this.pathLabel);
@@ -114,9 +93,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label pathLabel;
         private System.Windows.Forms.TextBox pathTextBox;
-        private System.Windows.Forms.Panel leftPanel;
-        private System.Windows.Forms.FlowLayoutPanel rightPanel;
-        private System.Windows.Forms.Button sortButton;
+        private System.Windows.Forms.FlowLayoutPanel leftPanel;
     }
 }
 

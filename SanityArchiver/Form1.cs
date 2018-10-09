@@ -18,36 +18,86 @@ namespace SanityArchiver
         public Form1()
         {
             InitializeComponent();
+            addLabels("C:\\");
+        }
+
+        private void addLabels(String path)
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+            directories.Clear();
+            files.Clear();
+            leftPanel.Controls.Clear();
+
+            foreach (DirectoryInfo directory in di.GetDirectories())
+            {
+               
+                directories.Add(directory);
+                Label dirLabel = new Label();
+                dirLabel.Click += dirClicked;
+                dirLabel.Text = directory.Name;
+
+                leftPanel.Controls.Add(dirLabel);
+
+            }
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+
+                files.Add(file);
+                Label fileLabel = new Label();
+                fileLabel.Text = file.Name + file.Extension;
+
+                leftPanel.Controls.Add(fileLabel);
+
+
+            }
+        }
+
+        private void dirClicked(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            
+            if(label.BackColor == Color.Blue)
+            {
+                DirectoryInfo dir = findDirectoryByName(label.Text);
+                addLabels(dir.FullName);
+            }
+            else
+            {
+                label.BackColor = Color.Blue;
+            }
+        }
+
+        private DirectoryInfo findDirectoryByName(string name)
+        {
+            foreach(DirectoryInfo directory in directories)
+            {
+                if (directory.Name == name)
+                {
+                    return directory;
+                }
+            }
+            return null;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DirectoryInfo di = new DirectoryInfo("C:\\");
-            
-            foreach(DirectoryInfo directory in di.GetDirectories())
-            {
-                directories.Add(directory);
-                Label dirLabel = new Label();
-                dirLabel.Text = directory.Name;
-                
-                rightPanel.Controls.Add(dirLabel);
-                
-            }
-            foreach(FileInfo file in di.GetFiles())
-            {
-                files.Add(file);
-                Label fileLabel = new Label();
-                fileLabel.Text = file.Name;
-               
-                rightPanel.Controls.Add(fileLabel);
-               
-            }
+          
         }
 
         private void sortButton_Click(object sender, EventArgs e)
         {
-   
+            
         }
 
+        private void rightPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace SanityArchiver
     {
         List<DirectoryInfo> directories = new List<DirectoryInfo>();
         List<FileInfo> files = new List<FileInfo>();
+        Label selected;
         public Form1()
         {
             InitializeComponent();
@@ -57,14 +58,21 @@ namespace SanityArchiver
         {
             Label label = (Label)sender;
             
-            if(label.BackColor == Color.Blue)
+            if(label.ForeColor == Color.Blue)
             {
                 DirectoryInfo dir = findDirectoryByName(label.Text);
                 addLabels(dir.FullName);
             }
             else
             {
-                label.BackColor = Color.Blue;
+                if (selected != null)
+                {
+                    selected.ForeColor = default(Color);
+                }
+                
+                selected = label;
+
+                label.ForeColor = Color.Blue;
             }
         }
 

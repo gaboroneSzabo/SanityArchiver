@@ -6,14 +6,41 @@ namespace SanityArchiver
 {
     public partial class Form1 : Form
     {
-        List<DirectoryInfo> directories = new List<DirectoryInfo>();
-        List<FileInfo> files = new List<FileInfo>();
+        FileBrowser left;
+        FileBrowser right;
 
         public Form1()
         {
             InitializeComponent();
-            FileBrowser left = new FileBrowser(leftTable, "C:\\");
-            FileBrowser right = new FileBrowser(rightTable, "C:\\");
+
+            foreach(DriveInfo drive in DriveInfo.GetDrives())
+            {
+                leftComboBox.Items.Add(drive.Name);
+                rightComboBox.Items.Add(drive.Name);
+            }
+
+            leftComboBox.SelectionChangeCommitted += comboBoxChanged;
+            rightComboBox.SelectionChangeCommitted += comboBoxChanged;
+            
+            
+        }
+
+        private void comboBoxChanged(object sender, System.EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            if (comboBox.Equals(leftComboBox))
+            {
+                left = new FileBrowser(leftTable, comboBox.SelectedItem.ToString());
+            }
+            else
+            {
+                right = new FileBrowser(rightTable, comboBox.SelectedItem.ToString());
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+
         }
     }
 }

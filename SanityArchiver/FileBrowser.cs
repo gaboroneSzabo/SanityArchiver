@@ -25,8 +25,18 @@ namespace SanityArchiver
 
         private DirectoryInfo[] getDirectories(string path)
         {
-            DirectoryInfo di = new DirectoryInfo(path);
-            return di.GetDirectories();
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                return di.GetDirectories();
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("Error");
+                return new DirectoryInfo[0];
+            }
+            
+            
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -8,21 +9,56 @@ namespace SanityArchiver
     {
         FileBrowser left;
         FileBrowser right;
+        Compress compress;
+
+        string selected = "left";
+
 
         public Form1()
         {
             InitializeComponent();
+            boundDriveLetters();
+            compress = new Compress();
 
-            foreach(DriveInfo drive in DriveInfo.GetDrives())
+            leftComboBox.SelectionChangeCommitted += comboBoxChanged;
+            rightComboBox.SelectionChangeCommitted += comboBoxChanged;
+
+            leftTable.SelectedIndexChanged += slectedChangeLeft;
+            rightTable.SelectedIndexChanged += slectedChangeRight;
+
+
+        }
+
+        private void slectedChangeLeft(object sender, EventArgs e)
+        {
+            this.selected = "left";
+
+        }
+
+        private void slectedChangeRight(object sender, EventArgs e)
+        {
+            this.selected = "right";
+        }
+
+        private FileBrowser getActive()
+        {
+            if (selected == "left")
+            {
+                return left;
+            }
+            else
+            {
+                return right;
+            }
+        }
+
+        private void boundDriveLetters()
+        {
+            foreach (DriveInfo drive in DriveInfo.GetDrives())
             {
                 leftComboBox.Items.Add(drive.Name);
                 rightComboBox.Items.Add(drive.Name);
             }
-
-            leftComboBox.SelectionChangeCommitted += comboBoxChanged;
-            rightComboBox.SelectionChangeCommitted += comboBoxChanged;
-            
-            
         }
 
         private void comboBoxChanged(object sender, System.EventArgs e)
@@ -40,7 +76,19 @@ namespace SanityArchiver
 
         private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
         {
+            
+        }
 
+        private void button11_Click(object sender, System.EventArgs e)
+        {
+            FileBrowser browser = getActive();
+            browser.compress();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FileBrowser browser = getActive();
+            browser.delete();
         }
     }
 }

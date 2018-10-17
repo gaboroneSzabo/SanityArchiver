@@ -8,20 +8,99 @@ namespace SanityArchiver
 {
     class FileBrowser
     {
+        private ListView listView;
+        private List<DirectoryInfo> directories = new List<DirectoryInfo>();
+        private List<FileInfo> files = new List<FileInfo>();
+        private string currentPath;
+        private Compress compressor;
 
         public FileBrowser(ListView listView, string path)
         {
             this.listView = listView;
+            this.compressor = new Compress();
             listView.MouseDoubleClick += doubleClicked;
             currentPath = path;
             fillListView(path);
         }
 
-        private ListView listView;
-        private List<DirectoryInfo> directories = new List<DirectoryInfo>();
-        private List<FileInfo> files = new List<FileInfo>();
-        private string currentPath;
+        
 
+        public ListView ListView
+        {
+            get
+            {
+                return this.listView;
+            }
+        }
+
+        public void refresh()
+        {
+            fillListView(currentPath);
+        }
+
+        private DirectoryInfo getDirectoryFromItem(ListViewItem item)
+        {
+            foreach (DirectoryInfo dir in directories)
+            {
+                if (dir.Name == item.Text)
+                {
+                    return dir;
+                }
+            }
+            return null;
+        }
+
+        private FileInfo getFileFromItem(ListViewItem item)
+        {
+            foreach (FileInfo file in files)
+            {
+                if (file.Name == item.Text)
+                {
+                    return file;
+                }
+            }
+            return null;
+        }
+
+        public void delete()
+        {
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+                DirectoryInfo dir = getDirectoryFromItem(item);
+                FileInfo file = getFileFromItem(item);
+                if (dir != null)
+                {
+                    dir.Delete();
+                }
+                else if (file != null) {
+                    file.Delete();
+                }
+            }
+            refresh();
+        }
+
+        public void compress()
+        {
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+                Console.WriteLine(item.Text);
+                compressor.CompressFile(getPathFromName(item.Text));
+
+            }
+            refresh();
+        }
+
+        public string getPathFromName(string name)
+        {
+            foreach (FileInfo file in files)
+            {
+                if (file.Name == name)
+                {
+                    return file.FullName;
+                }
+            }
+            return null;
+        }
 
         private DirectoryInfo[] getDirectories(string path)
         {
@@ -32,7 +111,7 @@ namespace SanityArchiver
             }
             catch
             {
-                System.Windows.Forms.MessageBox.Show("Error");
+                MessageBox.Show("Error");
                 return new DirectoryInfo[0];
             }
             

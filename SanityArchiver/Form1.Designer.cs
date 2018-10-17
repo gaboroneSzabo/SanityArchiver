@@ -46,11 +46,14 @@
             this.rightComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(363, 109);
+            this.button10.Location = new System.Drawing.Point(363, 88);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(75, 23);
             this.button10.TabIndex = 8;
@@ -59,12 +62,13 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(363, 159);
+            this.button11.Location = new System.Drawing.Point(364, 210);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(75, 23);
             this.button11.TabIndex = 9;
             this.button11.Text = "compress";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // leftTable
             // 
@@ -73,6 +77,7 @@
             this.size,
             this.date,
             this.attr});
+            this.leftTable.GridLines = true;
             this.leftTable.Location = new System.Drawing.Point(12, 88);
             this.leftTable.Name = "leftTable";
             this.leftTable.Size = new System.Drawing.Size(301, 313);
@@ -105,6 +110,7 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
+            this.rightTable.GridLines = true;
             this.rightTable.Location = new System.Drawing.Point(487, 88);
             this.rightTable.Name = "rightTable";
             this.rightTable.Size = new System.Drawing.Size(301, 313);
@@ -131,7 +137,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(363, 216);
+            this.button12.Location = new System.Drawing.Point(363, 297);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(75, 23);
             this.button12.TabIndex = 12;
@@ -140,7 +146,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(364, 271);
+            this.button13.Location = new System.Drawing.Point(363, 343);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(75, 23);
             this.button13.TabIndex = 13;
@@ -182,12 +188,43 @@
             this.label2.TabIndex = 17;
             this.label2.Text = "selected Drive:";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(363, 169);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "delete";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(364, 126);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 19;
+            this.button2.Text = "cut";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(363, 254);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 20;
+            this.button3.Text = "uncompress";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(803, 450);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.rightComboBox);
@@ -224,6 +261,9 @@
         private System.Windows.Forms.ComboBox rightComboBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

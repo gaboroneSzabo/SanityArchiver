@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SanityArchiver
 {
@@ -34,7 +35,20 @@ namespace SanityArchiver
 
         public void DecompressFile(string path)
         {
+            FileStream sourceFile = File.OpenRead(path);
+            string fileName = path.Remove(path.Length - 3);
+            FileStream destinationFile = File.Create(fileName);
 
+            using (GZipStream output = new GZipStream(sourceFile,
+                CompressionMode.Decompress))
+            {
+
+                output.CopyTo(destinationFile);
+            }
+
+            // Close the files.
+            sourceFile.Close();
+            destinationFile.Close();
         }
 
     }

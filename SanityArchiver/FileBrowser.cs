@@ -33,7 +33,7 @@ namespace SanityArchiver
             }
         }
 
-        public void refresh()
+        private void refresh()
         {
             fillListView(currentPath);
         }
@@ -83,11 +83,21 @@ namespace SanityArchiver
         {
             foreach (ListViewItem item in listView.SelectedItems)
             {
-                Console.WriteLine(item.Text);
+                //Console.WriteLine(item.Text);
                 compressor.CompressFile(getPathFromName(item.Text));
 
             }
             refresh();
+        }
+
+        public void deCompress()
+        {
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+                compressor.DecompressFile(getPathFromName(item.Text));
+            }
+            refresh();
+           
         }
 
         public string getPathFromName(string name)

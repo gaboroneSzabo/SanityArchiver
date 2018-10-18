@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SanityArchiver
@@ -23,6 +25,11 @@ namespace SanityArchiver
             fillListView(path);
         }
 
+        public string getPath()
+        {
+            return this.currentPath;
+        }
+
         
 
         public ListView ListView
@@ -33,7 +40,7 @@ namespace SanityArchiver
             }
         }
 
-        private void refresh()
+        public void refresh()
         {
             fillListView(currentPath);
         }
@@ -79,22 +86,42 @@ namespace SanityArchiver
             refresh();
         }
 
-        public void compress()
+        public void copy(string destination)
+        {
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+                FileInfo file = getFileFromItem(item);
+                if (file != null)
+                {
+                    try
+                    {
+                        file.CopyTo(destination + "\\" + file.Name);
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            }
+            
+        }
+
+        public void compress(string destination)
         {
             foreach (ListViewItem item in listView.SelectedItems)
             {
                 //Console.WriteLine(item.Text);
-                compressor.CompressFile(getPathFromName(item.Text));
+                compressor.CompressFile(getPathFromName(item.Text), destination);
 
             }
             refresh();
         }
 
-        public void deCompress()
+        public void deCompress(string destination)
         {
             foreach (ListViewItem item in listView.SelectedItems)
             {
-                compressor.DecompressFile(getPathFromName(item.Text));
+                compressor.DecompressFile(getPathFromName(item.Text), destination);
             }
             refresh();
            
@@ -131,8 +158,15 @@ namespace SanityArchiver
 
         private FileInfo[] getFiles(string path)
         {
-            DirectoryInfo di = new DirectoryInfo(path);
-            return di.GetFiles();
+            try {
+                DirectoryInfo di = new DirectoryInfo(path);
+                return di.GetFiles();
+            }
+            catch
+            {
+                return new FileInfo[0];
+            }
+            
         }
 
         private void fillListView(string path)
@@ -209,6 +243,99 @@ namespace SanityArchiver
 
             }
 
+        }
+
+        public void enCrypt(string destination, string key)
+        {
+            
+            foreach(ListViewItem item in listView.SelectedItems)
+            {
+                FileInfo file = getFileFromItem(item);
+                string inputFile = file.FullName;
+                string outName = file.FullName.Remove(file.FullName.Length - file.Extension.Length) + ".crypt";
+                //MessageBox.Show(outName);
+                string outputFile = destination + "\\" + getFileFromItem(item).Name;
+                crypt(inputFile, outputFile, key);
+            }                       
+        }
+
+        public void deCrypt(string destination, string key)
+        {
+            foreach(ListViewItem item in listView.SelectedItems)
+            {
+                FileInfo file = getFileFromItem(item);
+                string inputFile = file.FullName;
+                string outName = file.FullName.Remove(file.FullName.Length - file.Extension.Length) + ".crypt";
+                //MessageBox.Show(outName);
+                string outputFile = destination + "\\" + getFileFromItem(item).Name;
+                deCrypt(inputFile, outputFile, key);
+            }
+        }
+
+        private void crypt(string inputFile, string outputFile, string cryptKey)
+        {
+            try
+            {
+                string password = cryptKey;
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                string cryptFile = outputFile;
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    RMCrypto.CreateEncryptor(key, key),
+                    CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1)
+                    cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+            catch (CryptographicException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show("Encryption failed!", "Error");
+            }
+        }
+
+        private void deCrypt(string inputFile, string outputFile, string cryptKey)
+        {
+
+            {
+                string password = @cryptKey; // Your Key Here
+
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    RMCrypto.CreateDecryptor(key, key),
+                    CryptoStreamMode.Read);
+
+                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
+
+                int data;
+                while ((data = cs.ReadByte()) != -1)
+                    fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+
+            }
         }
     }
 }

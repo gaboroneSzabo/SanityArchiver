@@ -40,8 +40,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button12 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
+            this.crypt = new System.Windows.Forms.Button();
+            this.unCrypt = new System.Windows.Forms.Button();
             this.leftComboBox = new System.Windows.Forms.ComboBox();
             this.rightComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -58,6 +58,7 @@
             this.button10.TabIndex = 8;
             this.button10.Text = "copy";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button11
             // 
@@ -134,23 +135,25 @@
             // 
             this.columnHeader4.Text = "Attributes";
             // 
-            // button12
+            // crypt
             // 
-            this.button12.Location = new System.Drawing.Point(363, 280);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(75, 23);
-            this.button12.TabIndex = 12;
-            this.button12.Text = "crypt";
-            this.button12.UseVisualStyleBackColor = true;
+            this.crypt.Location = new System.Drawing.Point(363, 280);
+            this.crypt.Name = "crypt";
+            this.crypt.Size = new System.Drawing.Size(75, 23);
+            this.crypt.TabIndex = 12;
+            this.crypt.Text = "crypt";
+            this.crypt.UseVisualStyleBackColor = true;
+            this.crypt.Click += new System.EventHandler(this.crypt_Click);
             // 
-            // button13
+            // unCrypt
             // 
-            this.button13.Location = new System.Drawing.Point(363, 328);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(75, 23);
-            this.button13.TabIndex = 13;
-            this.button13.Text = "uncrypt";
-            this.button13.UseVisualStyleBackColor = true;
+            this.unCrypt.Location = new System.Drawing.Point(363, 328);
+            this.unCrypt.Name = "unCrypt";
+            this.unCrypt.Size = new System.Drawing.Size(75, 23);
+            this.unCrypt.TabIndex = 13;
+            this.unCrypt.Text = "uncrypt";
+            this.unCrypt.UseVisualStyleBackColor = true;
+            this.unCrypt.Click += new System.EventHandler(this.unCrypt_Click);
             // 
             // leftComboBox
             // 
@@ -219,8 +222,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.rightComboBox);
             this.Controls.Add(this.leftComboBox);
-            this.Controls.Add(this.button13);
-            this.Controls.Add(this.button12);
+            this.Controls.Add(this.unCrypt);
+            this.Controls.Add(this.crypt);
             this.Controls.Add(this.rightTable);
             this.Controls.Add(this.leftTable);
             this.Controls.Add(this.button11);
@@ -245,8 +248,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button crypt;
+        private System.Windows.Forms.Button unCrypt;
         private System.Windows.Forms.ComboBox leftComboBox;
         private System.Windows.Forms.ComboBox rightComboBox;
         private System.Windows.Forms.Label label1;

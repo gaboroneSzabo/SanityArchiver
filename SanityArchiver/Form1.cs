@@ -16,6 +16,8 @@ namespace SanityArchiver
 
         public Form1()
         {
+            
+
             InitializeComponent();
             boundDriveLetters();
             compress = new Compress();
@@ -52,6 +54,16 @@ namespace SanityArchiver
             }
         }
 
+        private FileBrowser getPassive()
+        {
+            FileBrowser browser = getActive();
+            if (browser != left)
+            {
+                return left;
+            }
+            return right;
+        }
+
         private void boundDriveLetters()
         {
             foreach (DriveInfo drive in DriveInfo.GetDrives())
@@ -82,7 +94,8 @@ namespace SanityArchiver
         private void button11_Click(object sender, System.EventArgs e)
         {
             FileBrowser browser = getActive();
-            browser.compress();
+            browser.compress(getPassive().getPath());
+            getPassive().refresh();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -93,7 +106,39 @@ namespace SanityArchiver
 
         private void button3_Click(object sender, EventArgs e)
         {
-            getActive().deCompress();
+            getActive().deCompress(getPassive().getPath());
+            getPassive().refresh();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            FileBrowser browser = getActive();
+            FileBrowser passive = getPassive();
+
+            try
+            {
+                browser.copy(passive.getPath());
+                passive.refresh();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+                
+            
+            
+        }
+
+        private void crypt_Click(object sender, EventArgs e)
+        {
+            getActive().enCrypt(getPassive().getPath(), "123Feeee");
+            getPassive().refresh();
+        }
+
+        private void unCrypt_Click(object sender, EventArgs e)
+        {
+            getActive().deCrypt(getPassive().getPath(), "123Feeee");
+            getPassive().refresh();
         }
     }
 }

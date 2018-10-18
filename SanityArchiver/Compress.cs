@@ -11,10 +11,11 @@ namespace SanityArchiver
 {
     public class Compress
     {
-        public void CompressFile(string path)
+        public void CompressFile(string path, string destination)
         {
             FileStream sourceFile = File.OpenRead(path);
-            FileStream destinationFile = File.Create(path + ".gz");
+            string fileName = path.Split('\\').Last();
+            FileStream destinationFile = File.Create(destination + " \\" + fileName + ".gz");
 
             byte[] buffer = new byte[sourceFile.Length];
             sourceFile.Read(buffer, 0, buffer.Length);
@@ -33,11 +34,12 @@ namespace SanityArchiver
             destinationFile.Close();
         }
 
-        public void DecompressFile(string path)
+        public void DecompressFile(string path, string destination)
         {
             FileStream sourceFile = File.OpenRead(path);
-            string fileName = path.Remove(path.Length - 3);
-            FileStream destinationFile = File.Create(fileName);
+ 
+            string fileName = path.Remove(path.Length - 3).Split('\\').Last();
+            FileStream destinationFile = File.Create(destination + "\\" + fileName);
 
             using (GZipStream output = new GZipStream(sourceFile,
                 CompressionMode.Decompress))

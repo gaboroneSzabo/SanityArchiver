@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SanityArchiver
 {
-    class FileBrowser
+    public class FileBrowser
     {
         private ListView listView;
         private List<DirectoryInfo> directories = new List<DirectoryInfo>();
@@ -86,24 +86,89 @@ namespace SanityArchiver
             refresh();
         }
 
-        public void copy(string destination)
+        bool isFile(ListViewItem item)
+        {
+            foreach(FileInfo file in files)
+            {
+                if (file.Name == item.Text)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+       
+
+        public void copy(string destination, string name)
         {
             foreach (ListViewItem item in listView.SelectedItems)
             {
-                FileInfo file = getFileFromItem(item);
-                if (file != null)
+                if (isFile(item))
                 {
-                    try
+                    FileInfo file = getFileFromItem(item);
+                    if (file != null)
                     {
-                        file.CopyTo(destination + "\\" + file.Name);
-                    }
-                    catch
-                    {
-                        throw;
+                        try
+                        {
+                            if (name == null)
+                            {
+                                name = file.Name;
+                            }
+                            file.CopyTo(destination + "\\" + name);
+                        }
+                        catch
+                        {
+                            throw;
+                        }
                     }
                 }
+                else
+                {
+                    DirectoryInfo dir = getDirectoryFromItem(item);
+                    if (dir != null)
+                    {
+                        recursiveCopy(dir, destination);
+                    }
+                }
+                
             }
-            
+        }
+
+        private void recursiveCopy(DirectoryInfo dir, string path)
+        {
+            Directory.CreateDirectory(path + "\\" + dir.Name);
+            foreach(DirectoryInfo d in dir.GetDirectories())
+            {
+               
+                recursiveCopy(d, path + "\\" + d.Name);
+                
+            }
+            foreach(FileInfo f in dir.GetFiles())
+            {
+                try
+                {
+                    f.CopyTo(path + "\\" + f.Name);
+                }
+                catch
+                {
+                    throw;
+                }
+                
+            }
+        }
+
+        public void delete(string destination)
+        {
+            foreach(ListViewItem item in listView.SelectedItems)
+            {
+                FileInfo file = getFileFromItem(item);
+                file.Delete();
+            }
+        }
+
+        public void copy(string destination)
+        {
+            copy(destination, null);
         }
 
         public void compress(string destination)

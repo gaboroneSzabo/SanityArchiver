@@ -114,15 +114,17 @@ namespace SanityArchiver
         {
             FileBrowser browser = getActive();
             FileBrowser passive = getPassive();
+            
 
             try
             {
                 browser.copy(passive.getPath());
                 passive.refresh();
             }
-            catch(Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
+                Console.WriteLine("sad");
+                Dialog d = new Dialog(browser, "copy", passive.getPath());
             }
                 
             
